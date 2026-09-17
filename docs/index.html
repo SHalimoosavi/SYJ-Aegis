@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="SYJ-AEGIS local-first AI application and agent security dashboard.">
+<title>SYJ-AEGIS — Security Dashboard</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1020;--panel:#111827;--panel2:#172033;--text:#eef2ff;--muted:#aab4c8;--accent:#00e5a0;--border:#263247}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:linear-gradient(180deg,var(--bg),#0e1526);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.55}
+a{color:var(--accent)}
+.wrap{width:min(1120px,calc(100% - 28px));margin:auto}
+.hero{padding:64px 0 42px;border-bottom:1px solid var(--border)}
+.eyebrow{text-transform:uppercase;letter-spacing:.14em;color:var(--accent);font-size:.78rem;font-weight:700}
+h1{font-size:clamp(2.25rem,8vw,4.8rem);line-height:1.02;margin:12px 0}
+.tagline{font-size:clamp(1.05rem,3vw,1.4rem);color:var(--muted);max-width:760px}
+.why{max-width:860px;color:#d8dfed}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.metrics{grid-template-columns:repeat(5,1fr)}
+section{padding:28px 0}
+.card{background:linear-gradient(145deg,var(--panel),var(--panel2));border:1px solid var(--border);border-radius:16px;padding:20px;transition:transform .2s ease,border-color .2s ease}
+.card:hover{transform:translateY(-3px);border-color:#40506a}
+.status{display:inline-block;margin-top:12px;padding:5px 9px;border:1px solid var(--border);border-radius:999px;font-size:.8rem;color:var(--accent)}
+.metric{font-size:2rem;font-weight:800}
+.label{color:var(--muted);font-size:.88rem}
+.fade{animation:fade .7s ease both}
+.delay1{animation-delay:.1s}.delay2{animation-delay:.2s}.delay3{animation-delay:.3s}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:11px 8px;border-bottom:1px solid var(--border)}
+th{color:var(--muted);font-weight:600}
+.pill{font-variant-numeric:tabular-nums}
+.footer{padding:35px 0 55px;color:var(--muted);font-size:.9rem}
+@media(max-width:760px){.grid,.metrics{grid-template-columns:1fr 1fr}.hero{padding-top:40px}table{font-size:.86rem}.wide{grid-column:1/-1}}
+@media(max-width:460px){.grid,.metrics{grid-template-columns:1fr}.wrap{width:min(100% - 20px,1120px)}.card{padding:16px}}
+</style>
+</head>
+<body>
+<header class="hero">
+<div class="wrap">
+<div class="eyebrow fade">SYJ-AEGIS · GitHub Pages Dashboard</div>
+<h1 class="fade delay1">Scan locally.<br>Understand completely.</h1>
+<p class="tagline fade delay2">An evidence-first view of what the project can expose, access, and do.</p>
+<p class="why fade delay3">SYJ-AEGIS exists to give teams a local-first, dependency-free way to inspect AI applications and agents without sending source code elsewhere. The scanner reports observable static evidence with confidence rather than claiming to prove runtime behavior.</p>
+<p><a href="report/index.html">Open the full self-scan report →</a></p>
+</div>
+</header>
+
+<main class="wrap">
+<section>
+<h2>Module status</h2>
+<div class="grid">
+<article class="card fade"><h3>AI-Firewall</h3><span class="status">merged</span><p>Prompt security, data exposure, RAG review, and dangerous LLM-output sinks.</p></article>
+<article class="card fade delay1"><h3>AgentGuard</h3><span class="status">merged</span><p>Static tool inventory, capability classification, and excessive-agency detection.</p></article>
+<article class="card fade delay2"><h3>AIGovern</h3><span class="status">planned</span><p>AI system register, data map, and risk register.</p></article>
+</div>
+</section>
+
+<section>
+<h2>Live self-scan</h2>
+<div class="grid metrics">
+<article class="card"><div class="metric pill">17</div><div class="label">Total findings</div></article>
+<article class="card"><div class="metric pill">4</div><div class="label">Critical</div></article>
+<article class="card"><div class="metric pill">13</div><div class="label">High</div></article>
+<article class="card"><div class="metric pill">0</div><div class="label">Medium</div></article>
+<article class="card"><div class="metric pill">0</div><div class="label">Low</div></article>
+</div>
+</section>
+
+<section>
+<div class="grid">
+<article class="card"><h2>Findings by phase</h2><table><tr><th>Phase</th><th>Findings</th></tr>
+<tr><td>Phase 1</td><td>4</td></tr>
+<tr><td>Phase 2</td><td>1</td></tr>
+<tr><td>Phase 3</td><td>12</td></tr>
+</table></article>
+<article class="card"><h2>Findings by module</h2><table><tr><th>Module</th><th>Findings</th></tr>
+<tr><td>Secret Detection</td><td>4</td></tr>
+<tr><td>AgentGuard</td><td>1</td></tr>
+<tr><td>AI-Firewall</td><td>12</td></tr>
+</table></article>
+<article class="card"><h2>Scan</h2><div class="metric pill">91</div><div class="label">Files scanned</div><p>All values above are computed from the repository self-scan by <code>scripts/build_docs.py</code>.</p></article>
+</div>
+</section>
+
+<section>
+<h2>Roadmap state</h2>
+<div class="grid">
+<article class="card"><h3>Phase 4 — Dashboard</h3><span class="status">in_progress</span></article>
+<article class="card"><h3>Phase 5 — AIGovern</h3><span class="status">planned</span></article>
+<article class="card"><h3>Phase 6 — Production Hardening</h3><span class="status">planned</span></article>
+</div>
+</section>
+</main>
+<footer class="footer"><div class="wrap">Generated deterministically from the current SYJ-AEGIS self-scan. No external resources are required to render this page.</div></footer>
+</body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "ai_firewall": "merged",
+  "agentguard": "merged",
+  "aigovern": "planned",
+  "phase_4_dashboard": "in_progress",
+  "phase_5_aigovern": "planned",
+  "phase_6_production_hardening": "planned"
+}

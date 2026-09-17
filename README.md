@@ -170,9 +170,10 @@ Phase 3 intentionally does not perform cross-function or cross-file taint tracki
 |:---:|---|---|:---:|
 | 1 | Core Scanner | Project discovery, secret detection, JSON + HTML reporting | ✅ Merged |
 | 2 | 🛡️ AgentGuard | Tool inventory, permission model, excessive-agency detection | ✅ Merged |
-| 3 | 🔥 AI-Firewall | Prompt security, data exposure, RAG security, output security | 🚧 In Progress |
-| 4 | 📋 AIGovern | AI system register, data map, risk register | 📋 Planned |
-| 5 | Production Hardening | CI/CD mode, SARIF output, baselines, suppressions, full docs, GitHub Actions | 📋 Planned |
+| 3 | 🔥 AI-Firewall | Prompt security, data exposure, RAG security, output security | ✅ Merged |
+| 4 | 📊 GitHub Pages Dashboard | Self-scan dashboard, live severity summary, module status, static report publishing | 🚧 In Progress |
+| 5 | 📋 AIGovern | AI system register, data map, risk register | 📋 Planned |
+| 6 | Production Hardening | CI/CD mode, SARIF output, baselines, suppressions, full docs, GitHub Actions | 📋 Planned |
 
 Each phase is built and merged independently on its own branch, with full test coverage, before the next begins.
 

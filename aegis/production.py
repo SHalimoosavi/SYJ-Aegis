@@ -217,7 +217,7 @@ def build_sarif(
             rule_id,
             {
                 "id": rule_id,
-                "name": {"text": str(finding.get("name", rule_id))},
+                "name": str(finding.get("name", rule_id)),
                 "shortDescription": {"text": str(finding.get("name", rule_id))},
                 "help": {"text": str(finding.get("remediation", "Review the evidence-backed finding."))},
                 "properties": {

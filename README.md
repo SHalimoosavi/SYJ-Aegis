@@ -59,7 +59,7 @@ Most existing AI security tooling either requires uploading your source code to 
 | Model output flowing straight into a shell or SQL call | 🔥 **AI-Firewall** — Output Security |
 | No visibility into what tools an agent can call, or with what permissions | 🛡️ **AgentGuard** — Tool Inventory & Permission Model |
 | Agents accumulating dangerous permission combinations unnoticed | 🛡️ **AgentGuard** — Excessive Agency Detection |
-| No inventory of what AI systems exist across a codebase, or who owns them | 📋 **AIGovern** — AI System Register & Risk Register |
+| No inventory of what AI systems exist across a codebase | 📋 **AIGovern** — AI System Register, Data Map & Risk Register |
 
 ## 🏗️ How It Works
 
@@ -164,6 +164,34 @@ Implemented on the `phase-3-ai-firewall` branch:
 
 Phase 3 intentionally does not perform cross-function or cross-file taint tracking. Cases that cannot be resolved by direct same-function evidence are not promoted to false certainty.
 
+## 📋 Phase 5 – AIGovern
+
+AIGovern adds the governance and policy layer on top of the existing static security scanner.
+
+The implementation is evidence-backed and local-only. It uses Python AST analysis and does not execute, import, evaluate, or dynamically load scanned project code.
+
+### Implemented governance capabilities
+
+This section documents the actually implemented Phase 5 capabilities:
+
+- AI System Register — detects statically observable AI-library imports and model invocation patterns in Python source.
+- Data Map — records observable data-like flows with source, classification, sink, and file/line evidence.
+- Risk Register — maps existing evidence-based security findings to governance risks.
+- Control Mapping — maps detected risks to governance controls and domains.
+- Governance Findings — creates separate evidence-backed governance findings derived from existing scanner findings.
+- Deterministic governance output — written to `.aegis/governance.json` using deterministic JSON serialization.
+- Scanner integration — AIGovern runs as an additive layer without changing the existing Phase 1–4 security finding stream.
+
+### Governance artifact
+
+A Phase 5 scan produces a governance artifact alongside the existing security artifacts. It contains the AI System Register, Data Map, Risk Register, Control Mapping, and Governance Findings.
+
+Where static evidence is insufficient to establish a fact, AIGovern does not invent the missing information.
+
+### Phase 5 validation
+
+The implementation is validated by positive and negative fixtures covering AI-system detection, data mapping, risk/control mapping, evidence-backed governance findings, scanner integration, and deterministic governance output.
+
 ## 🧭 Development Roadmap
 
 | Phase | Module | Scope | Status |
@@ -171,76 +199,6 @@ Phase 3 intentionally does not perform cross-function or cross-file taint tracki
 | 1 | Core Scanner | Project discovery, secret detection, JSON + HTML reporting | ✅ Merged |
 | 2 | 🛡️ AgentGuard | Tool inventory, permission model, excessive-agency detection | ✅ Merged |
 | 3 | 🔥 AI-Firewall | Prompt security, data exposure, RAG security, output security | ✅ Merged |
-| 4 | 📊 GitHub Pages Dashboard | Self-scan dashboard, live severity summary, module status, static report publishing | 🚧 In Progress |
-| 5 | 📋 AIGovern | AI system register, data map, risk register | 📋 Planned |
+| 4 | 📊 GitHub Pages Dashboard | Self-scan dashboard, live severity summary, module status, static report publishing | ✅ Merged |
+| 5 | 📋 AIGovern | AI system register, data map, risk register, governance controls, evidence-backed governance findings | 🚧 In Progress |
 | 6 | Production Hardening | CI/CD mode, SARIF output, baselines, suppressions, full docs, GitHub Actions | 📋 Planned |
-
-Each phase is built and merged independently on its own branch, with full test coverage, before the next begins.
-
-## 🔐 Design Philosophy
-
-> *Scan locally. Understand completely. Report transparently. Remediate safely.*
-
-- **Local-first.** Source code, secrets, and prompts are never transmitted anywhere. Any future optional external intelligence feature will be explicitly opt-in and off by default.
-- **Zero runtime dependencies.** Python standard library only — auditable, and installable anywhere Python runs, including Termux on ARM64.
-- **Evidence-first.** Every finding traces back to a real file and line. No finding without evidence.
-- **Confidence over false certainty.** Static analysis can't prove runtime behavior — the engine says "these observable risks were detected," never "this system is secure."
-- **No fabricated governance data.** Where something can't be determined automatically, the output says `UNKNOWN` rather than guessing.
-
-## 🗂️ Repository Structure
-
-```
-SYJ-Aegis/
-├── aegis/
-│   ├── cli/          # Command-line interface
-│   ├── core/          # Scan orchestration
-│   ├── analyzers/      # Per-language static analyzers
-│   ├── rules/          # Detection rules
-│   ├── engine/         # Rule engine
-│   ├── inventory/       # Tool & AI-system inventory
-│   ├── agents/         # AgentGuard
-│   ├── governance/      # AIGovern
-│   ├── reporting/       # JSON + HTML report generation
-│   └── security/        # Scanner-hardening (path traversal, resource limits, etc.)
-├── tests/
-│   ├── unit/
-│   ├── integration/
-│   └── fixtures/
-├── rules/
-├── docs/
-├── examples/
-├── pyproject.toml
-└── README.md
-```
-
-## 🧪 Testing
-
-```bash
-python -m unittest discover -s tests -v
-```
-
-All detection rules ship with both positive and negative fixtures, and the full findings output is verified to be byte-for-byte deterministic across identical runs.
-
-## 🤝 Contributing
-
-Issues and pull requests are welcome. Before submitting a new detection rule, please include:
-
-- A rule ID following the `AEGIS-<CATEGORY>-<NUMBER>` convention
-- Positive and negative test fixtures
-- A remediation description
-
-See `CONTRIBUTING.md` for the full guidelines.
-
-## 📄 License
-
-Released under the [MIT License](./LICENSE) — adjust this section if a different license file is actually in the repo.
-
-## ⚠️ Disclaimer
-
-SYJ-Aegis performs **static analysis only**. It does not execute your code, and it cannot verify runtime behavior. A clean scan is not proof that a system is secure — it means no findings were detected by the rules currently implemented. Always pair automated scanning with human security review.
-
----
-
-<div align="center">
-Built for developers who want to know what their AI agents can actually do — before production finds out for them.
-</div>

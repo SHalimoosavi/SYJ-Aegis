@@ -13,6 +13,16 @@
 - Added LLM-output-to-dangerous-sink detection using `AEGIS-AI-017`.
 - Added deterministic Phase 3 findings integration and updated README/reporting documentation.
 
+## Phase 5 — AIGovern
+- Added an evidence-backed AI System Register using conservative static AST analysis of observable AI-library imports and model invocation patterns.
+- Added a static Data Map for observable user/external-input and sensitive-data flows reaching recognized sinks.
+- Added a deterministic Risk Register mapping existing security findings to governance risks and controls.
+- Added governance Control Mapping across AI input, prompt, data, RAG, output, agent, and secret-management domains.
+- Added separate `AEGIS-GOV-*` evidence-backed governance findings derived from existing scanner findings.
+- Added deterministic `.aegis/governance.json` output.
+- Integrated AIGovern additively into the existing scanner without rewriting Phase 1–4 detection logic.
+- Added positive and negative governance fixtures and unit tests covering AI-system discovery, data mapping, governance mapping, evidence integrity, scanner integration, and deterministic output.
+
 ## Phase 4 — GitHub Pages Dashboard
 - Added a standard-library dashboard build script that dogfoods `aegis scan .` and requires real `.aegis/findings.json` output.
 - Added a self-contained GitHub Pages dashboard with programmatically rendered finding/severity/phase/module counts.

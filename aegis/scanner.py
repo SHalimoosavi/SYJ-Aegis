@@ -5,6 +5,7 @@ from .discovery import discover,iter_project_files
 from .secrets import scan_file
 from .agentguard import discover_tools,excessive_agency_findings
 from .ai_firewall import analyze_file
+from .governance import analyze as analyze_governance
 
 def project_hash(project):
     h=hashlib.sha256()
@@ -23,6 +24,7 @@ def scan(project):
     tools=discover_tools(project)
     f.extend(excessive_agency_findings(tools))
     f.sort(key=lambda x:(x.rule_id,x.evidence.file,x.evidence.line,x.name)); d["agent_tools"]=tools
+    d["governance"]=analyze_governance(project,f)
     return d,f
 
 def render_html(project,d,findings):
@@ -47,4 +49,11 @@ def write_outputs(project,d,findings):
     inventory={"tools":[{"name":x["name"],"source":x["source"],"description":x["description"]} for x in d.get("agent_tools",[])]}
     (out/"inventory.json").write_text(json.dumps(inventory,indent=2,sort_keys=True,ensure_ascii=False)+"\n",encoding="utf-8")
     (out/"permissions.json").write_text(json.dumps({"tools":d.get("agent_tools",[])},indent=2,sort_keys=True,ensure_ascii=False)+"\n",encoding="utf-8")
+    governance=d.get("governance",{})
+    governance_output=dict(governance)
+    governance_output["governance_findings"]=[
+        x.to_dict() if hasattr(x, "to_dict") else x
+        for x in governance.get("governance_findings", [])
+    ]
+    (out/"governance.json").write_text(json.dumps(governance_output,indent=2,sort_keys=True,ensure_ascii=False)+"\n",encoding="utf-8")
     (out/"report/index.html").write_text(render_html(Path(project),d,findings),encoding="utf-8")

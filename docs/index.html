@@ -1,99 +1,57 @@
 <!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="SYJ-AEGIS local-first AI application and agent security dashboard.">
-<title>SYJ-AEGIS — Security Dashboard</title>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="SYJ-AEGIS v1.0.0 local-first AI security and governance dashboard">
+<title>SYJ-AEGIS v1.0.0 — Security Dashboard</title>
 <style>
-:root{color-scheme:dark;--bg:#0b1020;--panel:#111827;--panel2:#172033;--text:#eef2ff;--muted:#aab4c8;--accent:#00e5a0;--border:#263247}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:linear-gradient(180deg,var(--bg),#0e1526);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.55}
-a{color:var(--accent)}
-.wrap{width:min(1120px,calc(100% - 28px));margin:auto}
-.hero{padding:64px 0 42px;border-bottom:1px solid var(--border)}
-.eyebrow{text-transform:uppercase;letter-spacing:.14em;color:var(--accent);font-size:.78rem;font-weight:700}
-h1{font-size:clamp(2.25rem,8vw,4.8rem);line-height:1.02;margin:12px 0}
-.tagline{font-size:clamp(1.05rem,3vw,1.4rem);color:var(--muted);max-width:760px}
-.why{max-width:860px;color:#d8dfed}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.metrics{grid-template-columns:repeat(5,1fr)}
-section{padding:28px 0}
-.card{background:linear-gradient(145deg,var(--panel),var(--panel2));border:1px solid var(--border);border-radius:16px;padding:20px;transition:transform .2s ease,border-color .2s ease}
-.card:hover{transform:translateY(-3px);border-color:#40506a}
-.status{display:inline-block;margin-top:12px;padding:5px 9px;border:1px solid var(--border);border-radius:999px;font-size:.8rem;color:var(--accent)}
-.metric{font-size:2rem;font-weight:800}
-.label{color:var(--muted);font-size:.88rem}
-.fade{animation:fade .7s ease both}
-.delay1{animation-delay:.1s}.delay2{animation-delay:.2s}.delay3{animation-delay:.3s}
-@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-table{width:100%;border-collapse:collapse}
-th,td{text-align:left;padding:11px 8px;border-bottom:1px solid var(--border)}
-th{color:var(--muted);font-weight:600}
-.pill{font-variant-numeric:tabular-nums}
-.footer{padding:35px 0 55px;color:var(--muted);font-size:.9rem}
-@media(max-width:760px){.grid,.metrics{grid-template-columns:1fr 1fr}.hero{padding-top:40px}table{font-size:.86rem}.wide{grid-column:1/-1}}
-@media(max-width:460px){.grid,.metrics{grid-template-columns:1fr}.wrap{width:min(100% - 20px,1120px)}.card{padding:16px}}
-</style>
-</head>
+:root{color-scheme:dark;--bg:#080d18;--panel:#101827;--panel2:#162235;--text:#eef4ff;--muted:#a9b7cc;--accent:#45f0b0;--border:#2a3a52;--warn:#ffd166}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:linear-gradient(180deg,var(--bg),#0d1625);color:var(--text);font:15px/1.6 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}a{color:var(--accent)}code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}.wrap{width:min(1160px,calc(100% - 28px));margin:auto}
+nav{position:sticky;top:0;z-index:20;background:#080d18ee;backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}nav .wrap{display:flex;gap:16px;overflow:auto;white-space:nowrap;padding:12px 0}nav a{text-decoration:none;font-size:.88rem}
+.hero{padding:70px 0 45px;border-bottom:1px solid var(--border)}.eyebrow,.status{color:var(--accent);text-transform:uppercase;letter-spacing:.08em;font-weight:700}h1{font-size:clamp(2.5rem,8vw,5.5rem);line-height:.98;margin:10px 0}h2{margin-top:0}.tag{font-size:1.2rem;color:var(--muted);max-width:800px}
+section{padding:38px 0}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.metrics{grid-template-columns:repeat(5,1fr)}.card{background:linear-gradient(145deg,var(--panel),var(--panel2));border:1px solid var(--border);border-radius:16px;padding:20px}.metric{font-size:2rem;font-weight:800}.muted{color:var(--muted)}.status{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:4px 9px;font-size:.72rem}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--border)}th{color:var(--muted)}.demo textarea{width:100%;min-height:210px;background:#080d18;color:var(--text);border:1px solid var(--border);border-radius:10px;padding:14px;font:14px/1.5 ui-monospace,monospace}button{background:var(--accent);border:0;border-radius:9px;padding:10px 16px;font-weight:800;cursor:pointer;margin-top:10px}.notice{border:1px solid #715f25;background:#211d0d;padding:15px;border-radius:12px;color:#ffe9a6}.result{margin-top:14px}.finding{border-left:3px solid var(--warn);padding:8px 12px;margin:8px 0;background:#111827}footer{padding:40px 0 65px;color:var(--muted)}
+@media(max-width:760px){.grid,.metrics{grid-template-columns:1fr}nav .wrap{gap:11px}}
+</style></head>
 <body>
-<header class="hero">
-<div class="wrap">
-<div class="eyebrow fade">SYJ-AEGIS · GitHub Pages Dashboard</div>
-<h1 class="fade delay1">Scan locally.<br>Understand completely.</h1>
-<p class="tagline fade delay2">An evidence-first view of what the project can expose, access, and do.</p>
-<p class="why fade delay3">SYJ-AEGIS exists to give teams a local-first, dependency-free way to inspect AI applications and agents without sending source code elsewhere. The scanner reports observable static evidence with confidence rather than claiming to prove runtime behavior.</p>
-<p><a href="report/index.html">Open the full self-scan report →</a></p>
-</div>
-</header>
-
+<nav><div class="wrap">
+<a href="#overview">Overview</a><a href="#architecture">Architecture</a><a href="#features">Features</a><a href="#demo">Live Demo</a><a href="#rules">Security Rules</a><a href="#reports">Reports</a><a href="#ci">CI/SARIF</a><a href="#docs">Documentation</a><a href="https://github.com/SHalimoosavi/SYJ-Aegis">GitHub</a><a href="https://github.com/SHalimoosavi/SYJ-Aegis/releases/tag/v1.0.0">Release v1.0.0</a>
+</div></nav>
+<header id="overview" class="hero"><div class="wrap"><div class="eyebrow">SYJ-AEGIS · v1.0.0</div><h1>Scan locally.<br>Understand completely.</h1>
+<p class="tag">Evidence-first static security and AI governance analysis for applications and agents.</p>
+<p>SYJ-AEGIS provides a local-first, dependency-free way to inspect observable source-code evidence without sending the project elsewhere.</p></div></header>
 <main class="wrap">
-<section>
-<h2>Module status</h2>
-<div class="grid">
-<article class="card fade"><h3>AI-Firewall</h3><span class="status">merged</span><p>Prompt security, data exposure, RAG review, and dangerous LLM-output sinks.</p></article>
-<article class="card fade delay1"><h3>AgentGuard</h3><span class="status">merged</span><p>Static tool inventory, capability classification, and excessive-agency detection.</p></article>
-<article class="card fade delay2"><h3>AIGovern</h3><span class="status">in_progress</span><p>AI system register, data map, and risk register.</p></article>
-</div>
-</section>
-
-<section>
-<h2>Live self-scan</h2>
-<div class="grid metrics">
-<article class="card"><div class="metric pill">18</div><div class="label">Total findings</div></article>
-<article class="card"><div class="metric pill">4</div><div class="label">Critical</div></article>
-<article class="card"><div class="metric pill">14</div><div class="label">High</div></article>
-<article class="card"><div class="metric pill">0</div><div class="label">Medium</div></article>
-<article class="card"><div class="metric pill">0</div><div class="label">Low</div></article>
-</div>
-</section>
-
-<section>
-<div class="grid">
-<article class="card"><h2>Findings by phase</h2><table><tr><th>Phase</th><th>Findings</th></tr>
-<tr><td>Phase 1</td><td>4</td></tr>
-<tr><td>Phase 2</td><td>1</td></tr>
-<tr><td>Phase 3</td><td>13</td></tr>
-</table></article>
-<article class="card"><h2>Findings by module</h2><table><tr><th>Module</th><th>Findings</th></tr>
-<tr><td>Secret Detection</td><td>4</td></tr>
-<tr><td>AgentGuard</td><td>1</td></tr>
-<tr><td>AI-Firewall</td><td>13</td></tr>
-</table></article>
-<article class="card"><h2>Scan</h2><div class="metric pill">49</div><div class="label">Files scanned</div><p>All values above are computed from the repository self-scan by <code>scripts/build_docs.py</code>.</p></article>
-</div>
-</section>
-
-<section>
-<h2>Roadmap state</h2>
-<div class="grid">
-<article class="card"><h3>Phase 4 — Dashboard</h3><span class="status">merged</span></article>
-<article class="card"><h3>Phase 5 — AIGovern</h3><span class="status">in_progress</span></article>
-<article class="card"><h3>Phase 6 — Production Hardening</h3><span class="status">in_progress</span></article>
-</div>
-</section>
+<section><h2>Release status</h2><div class="grid"><article class="card"><h3>Phase 1 — Core Scanner</h3><span class="status">merged</span></article><article class="card"><h3>Phase 2 — AgentGuard</h3><span class="status">merged</span></article><article class="card"><h3>Phase 3 — AI-Firewall</h3><span class="status">merged</span></article><article class="card"><h3>Phase 4 — Dashboard</h3><span class="status">merged</span></article><article class="card"><h3>Phase 5 — AIGovern</h3><span class="status">merged</span></article><article class="card"><h3>Phase 6 — Production Hardening</h3><span class="status">released — v1.0.0</span></article></div></section>
+<section id="architecture"><h2>Architecture</h2><div class="grid"><article class="card"><h3>Static analysis</h3><p>Source is parsed and inspected. Scanned application code is not executed, imported, or evaluated.</p></article><article class="card"><h3>Governance</h3><p>Phase 5 derives an AI System Register, Data Map, Risk Register, Control Mapping and governance findings from static evidence.</p></article><article class="card"><h3>Production</h3><p>Phase 6 adds CI policy gates, SARIF 2.1.0, baselines and suppressions.</p></article></div></section>
+<section id="features"><h2>Real self-scan</h2><div class="grid metrics"><article class="card"><div class="metric">20</div><div class="muted">Core findings</div></article><article class="card"><div class="metric">4</div><div class="muted">Critical</div></article><article class="card"><div class="metric">16</div><div class="muted">High</div></article><article class="card"><div class="metric">14</div><div class="muted">Governance findings</div></article><article class="card"><div class="metric">113</div><div class="muted">Files scanned</div></article></div>
+<div class="grid"><article class="card"><h3>Findings by phase</h3><table><tr><th>Phase</th><th>Count</th></tr><tr><td>Phase 1</td><td>6</td></tr><tr><td>Phase 2</td><td>1</td></tr><tr><td>Phase 3</td><td>13</td></tr><tr><td>Phase 4</td><td>0</td></tr><tr><td>Phase 5</td><td>14</td></tr><tr><td>Phase 6</td><td>0</td></tr></table></article><article class="card"><h3>Findings by module</h3><table><tr><th>Module</th><th>Count</th></tr><tr><td>AI-Firewall</td><td>13</td></tr><tr><td>AIGovern</td><td>14</td></tr><tr><td>AgentGuard</td><td>1</td></tr><tr><td>Secret Detection</td><td>6</td></tr></table></article><article class="card"><h3>Governance register</h3><p>AI systems: <b>1</b></p><p>Data flows: <b>4</b></p><p>Risks: <b>14</b></p><p>Controls: <b>6</b></p></article></div></section>
+<section id="demo"><h2>Browser demonstration</h2><div class="notice"><b>Browser demonstration only.</b> This is a small subset of rules running as pattern matching in your browser. It is <b>not the real scanner</b> and never uploads your text. Full engine: <code>pip install -e .</code>, then <code>aegis scan .</code> / <code>aegis ci .</code>.</div>
+<div class="card demo"><textarea id="source" spellcheck="false">API_KEY = "sk-test-1234567890abcdef1234567890abcdef"
+value = input("value: ")
+print(value)
+</textarea><button id="analyze">Analyze snippet locally</button><div id="demoResult" class="result muted">No analysis run yet.</div></div></section>
+<section id="rules"><h2>Security Rules</h2><table><tr><th>Family</th><th>Scope</th></tr><tr><td><code>AEGIS-SECRET-*</code></td><td>Static, evidence-backed rule family</td></tr><tr><td><code>AEGIS-AGENCY-001</code></td><td>Static, evidence-backed rule family</td></tr><tr><td><code>AEGIS-AI-001/002/003/004/017</code></td><td>Static, evidence-backed rule family</td></tr><tr><td><code>AEGIS-GOV-*</code></td><td>Static, evidence-backed rule family</td></tr></table></section>
+<section id="reports"><h2>Reports</h2><div class="card"><p><a href="report/index.html">Open the regenerated self-scan report →</a></p><p>The report is copied from the real <code>.aegis/report/</code> output during the dashboard build.</p></div></section>
+<section id="ci"><h2>CI / SARIF</h2><div class="grid"><article class="card"><div class="metric">20</div><div class="muted">SARIF results</div></article><article class="card"><div class="metric">2.1.0</div><div class="muted">SARIF version</div></article><article class="card"><div class="metric">FAIL</div><div class="muted">CI policy state</div></article></div><p>Actionable: 2 · Baseline-covered: 18 · Suppressed: 0 · Threshold: high</p></section>
+<section id="docs"><h2>Documentation</h2><div class="grid"><article class="card"><a href="https://github.com/SHalimoosavi/SYJ-Aegis/blob/main/README.md">README</a></article><article class="card"><a href="https://github.com/SHalimoosavi/SYJ-Aegis/blob/main/docs/production-hardening.md">Production Hardening</a></article><article class="card"><a href="https://github.com/SHalimoosavi/SYJ-Aegis/releases/tag/v1.0.0">v1.0.0 Release</a></article></div></section>
+<section><h2>What this does NOT do</h2><div class="notice">No runtime code execution. No external API calls. No source-code upload. The browser demo performs pattern matching only. The browser demo is not the production scanner. The production scanner runs locally through Python and the CLI.</div></section>
 </main>
-<footer class="footer"><div class="wrap">Generated deterministically from the current SYJ-AEGIS self-scan. No external resources are required to render this page.</div></footer>
-</body>
-</html>
+<footer><div class="wrap">SYJ-AEGIS v1.0.0 · Local-first · Static analysis · No external page resources. This dashboard is generated from the current scanner outputs; it does not invent or estimate findings.</div></footer>
+<script>
+"use strict";
+function browserRules(source) {
+  const lines=source.split(/\r?\n/), findings=[];
+  const key=/\b(?:api[_-]?key|secret|token)\b\s*=\s*["'][^"']{12,}["']/i;
+  const sink=/\b(?:eval|exec)\s*\(/;
+  lines.forEach((line,i)=>{
+    if(key.test(line)) findings.push({rule:"BROWSER-SECRET-001",line:i+1,text:"Obvious hardcoded secret-like assignment"});
+    if(sink.test(line)) findings.push({rule:"BROWSER-SINK-001",line:i+1,text:"Direct eval/exec sink pattern"});
+  });
+  return findings;
+}
+document.getElementById("analyze").addEventListener("click",()=>{
+  const r=browserRules(document.getElementById("source").value), box=document.getElementById("demoResult");
+  if(!r.length) { box.className="result"; box.textContent="No browser-demo patterns detected."; return; }
+  box.className="result"; box.innerHTML="<b>Demo findings:</b>"+r.map(x=>`<div class="finding"><code>${x.rule}</code> · line ${x.line} · ${x.text}</div>`).join("");
+});
+window.SYJ_AEGIS_BROWSER_RULES=browserRules;
+</script>
+</body></html>

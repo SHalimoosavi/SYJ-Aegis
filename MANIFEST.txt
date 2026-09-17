@@ -1,10 +1,19 @@
-aegis/agentguard.py — Phase 2 AST-based tool inventory, capability classification, and excessive-agency detection.
-aegis/scanner.py — Integrates AgentGuard findings and writes inventory/permissions outputs plus Agent Capabilities HTML.
-aegis/cli.py — Updates scan help/output for Phase 1/2 and reports discovered agent-tool count.
-tests/test_agentguard_discovery.py — Positive/negative tests for conservative tool discovery.
-tests/test_permissions.py — Positive/negative tests for capability classification.
-tests/test_excessive_agency.py — Positive/negative tests for excessive-agency combinations.
-tests/fixtures/agentguard_positive/tool_positive.py — Positive AgentGuard source fixture.
-tests/fixtures/agentguard_negative/tool_negative.py — Negative AgentGuard source fixture.
-NOTES.md — Appends auditable Phase 2 detection heuristics and evidence rules.
-CHANGELOG.md — Adds Phase 2 AgentGuard changelog entry.
+aegis/ai_firewall.py — Phase 3 AI-Firewall static heuristics for prompt security, data exposure, RAG security, and output sinks.
+aegis/scanner.py — Integrates Phase 3 findings and updates deterministic configuration and HTML security reporting.
+aegis/cli.py — Updates scan help to identify Phase 3 static analysis.
+tests/test_prompt_security.py — Positive/negative tests for prompt secret and prompt-injection heuristics.
+tests/test_pii_exposure.py — Positive/negative tests for PII/data-exposure heuristics.
+tests/test_rag_security.py — Positive/negative tests for RAG detection and UNCLEAR authorization filtering.
+tests/test_output_sinks.py — Positive/negative tests for LLM-output dangerous-sink detection.
+tests/fixtures/phase3_prompt_positive/app.py — Positive prompt-security source fixture.
+tests/fixtures/phase3_prompt_negative/app.py — Negative prompt-security source fixture.
+tests/fixtures/phase3_pii_positive/app.py — Positive PII/data-exposure source fixture.
+tests/fixtures/phase3_pii_negative/app.py — Negative PII/data-exposure source fixture.
+tests/fixtures/phase3_rag_positive/app.py — Positive RAG authorization-review source fixture.
+tests/fixtures/phase3_rag_negative/app.py — Negative RAG authorization-review source fixture.
+tests/fixtures/phase3_output_positive/app.py — Positive LLM-output dangerous-sink source fixture.
+tests/fixtures/phase3_output_negative/app.py — Negative LLM-output dangerous-sink source fixture.
+NOTES.md — Appends auditable Phase 3 detection heuristics and evidence rules.
+CHANGELOG.md — Appends the Phase 3 AI-Firewall changelog entry.
+README.md — Maintains the project documentation and roadmap through Phase 3.
+MANIFEST.txt — Lists only the Phase 3 added/modified files in this change package.

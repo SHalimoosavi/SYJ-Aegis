@@ -5,7 +5,7 @@ from .scanner import scan,write_outputs
 
 def main(argv=None):
     p=argparse.ArgumentParser(prog="aegis",description="SYJ-AEGIS local-first AI application and agent security scanner.")
-    s=p.add_subparsers(dest="command"); sp=s.add_parser("scan",help="Scan a project using Phase 1/2 static analysis."); sp.add_argument("path",type=Path)
+    s=p.add_subparsers(dest="command"); sp=s.add_parser("scan",help="Scan a project using Phase 1/2/3 static analysis."); sp.add_argument("path",type=Path)
     s.add_parser("version",help="Show SYJ-AEGIS version.")
     a=p.parse_args(argv)
     if a.command is None: p.print_help(); return 0

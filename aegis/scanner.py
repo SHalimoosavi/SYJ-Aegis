@@ -4,6 +4,7 @@ from . import __version__,RULES_VERSION
 from .discovery import discover,iter_project_files
 from .secrets import scan_file
 from .agentguard import discover_tools,excessive_agency_findings
+from .ai_firewall import analyze_file
 
 def project_hash(project):
     h=hashlib.sha256()
@@ -15,7 +16,10 @@ def project_hash(project):
 
 def scan(project):
     project=Path(project).resolve(); d=discover(project); f=[]
-    for p in iter_project_files(project): f.extend(scan_file(p,project))
+    for p in iter_project_files(project):
+        f.extend(scan_file(p,project))
+        if p.suffix == ".py":
+            f.extend(analyze_file(p,project))
     tools=discover_tools(project)
     f.extend(excessive_agency_findings(tools))
     f.sort(key=lambda x:(x.rule_id,x.evidence.file,x.evidence.line,x.name)); d["agent_tools"]=tools
@@ -23,21 +27,22 @@ def scan(project):
 
 def render_html(project,d,findings):
     e=lambda x:html.escape(str(x),quote=True)
-    rows="".join(f"<tr><td>{e(x.rule_id)}</td><td>{e(x.name)}</td><td>{e(x.severity)}</td><td>{e(x.confidence)}</td><td>{e(x.evidence.file)}:{x.evidence.line}</td><td>{e(x.description)}</td><td>{e(x.remediation)}</td></tr>" for x in findings)
-    if not rows: rows='<tr><td colspan="7">No Phase 1/2 findings detected.</td></tr>'
+    rows="".join(f"<tr><td>{e(x.rule_id)}</td><td>{e(x.name)}</td><td>{e(x.category)}</td><td>{e(x.severity)}</td><td>{e(x.confidence)}</td><td>{e(x.evidence.file)}:{x.evidence.line}</td><td>{e(x.description)}</td><td>{e(x.remediation)}</td></tr>" for x in findings)
+    if not rows: rows='<tr><td colspan="8">No Phase 1/2/3 findings detected.</td></tr>'
     langs=", ".join(e(x["name"]) for x in d["languages"]) or "UNKNOWN"; frameworks=", ".join(e(x) for x in d["frameworks"]) or "UNKNOWN"
     capability_rows=[]
     for tool in d.get("agent_tools",[]):
         active=", ".join(cap for cap,items in tool["capabilities"].items() if items) or "none"
         capability_rows.append(f"<tr><td>{e(tool['name'])}</td><td>{e(tool['source']['file'])}:{tool['source']['line']}</td><td>{e(tool['description']) if tool['description'] is not None else '—'}</td><td>{e(active)}</td></tr>")
     capability_table="".join(capability_rows) or '<tr><td colspan="4">No statically registered agent tools detected.</td></tr>'
-    return f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SYJ-AEGIS Report</title><style>body{{font-family:system-ui,sans-serif;margin:0;background:#f5f7fa;color:#172033}}header{{padding:28px;background:#111827;color:white}}main{{max-width:1200px;margin:24px auto;padding:0 16px}}.card{{background:white;border-radius:12px;padding:20px;margin:16px 0;box-shadow:0 2px 10px #0001}}.grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}}.metric{{font-size:28px;font-weight:700}}table{{width:100%;border-collapse:collapse;font-size:14px}}th,td{{padding:10px;border-bottom:1px solid #e5e7eb;text-align:left;vertical-align:top}}th{{background:#f3f4f6}}</style></head><body><header><h1>SYJ-AEGIS AI SECURITY &amp; GOVERNANCE REPORT</h1><p>Local static Phase 1/2 report — observable static findings only.</p></header><main><div class="card"><h2>Project</h2><p>{e(project.name)}</p></div><div class="grid"><div class="card"><div class="metric">{len(findings)}</div>Findings</div><div class="card"><div class="metric">{sum(x.severity=="HIGH" for x in findings)}</div>High</div><div class="card"><div class="metric">{sum(x.severity=="CRITICAL" for x in findings)}</div>Critical</div><div class="card"><div class="metric">{d["files_scanned"]}</div>Files scanned</div></div><div class="card"><h2>Project Detection</h2><p>Language: {langs}</p><p>Framework: {frameworks}</p></div><div class="card"><h2>Agent Capabilities</h2><table><thead><tr><th>Tool</th><th>Source</th><th>Description</th><th>Capabilities</th></tr></thead><tbody>{capability_table}</tbody></table></div><div class="card"><h2>Findings</h2><table><thead><tr><th>Rule</th><th>Name</th><th>Severity</th><th>Confidence</th><th>Evidence</th><th>Description</th><th>Remediation</th></tr></thead><tbody>{rows}</tbody></table></div><div class="card"><h2>Security Overview</h2><p>Phase 2 statically inventories explicitly registered Python agent tools and classifies observable capabilities. It does not execute or import scanned project code.</p></div><div class="card"><h2>Phase Scope</h2><p>Capability graph visualization, RAG, AI-Firewall, governance, dependency analysis, SARIF, baselines and suppressions are outside Phase 2.</p></div></main></body></html>"""
+    phase3_count=sum(x.category in {"Prompt Security","Data Exposure","RAG Security","Output Security"} for x in findings)
+    return f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SYJ-AEGIS Report</title><style>body{{font-family:system-ui,sans-serif;margin:0;background:#f5f7fa;color:#172033}}header{{padding:28px;background:#111827;color:white}}main{{max-width:1200px;margin:24px auto;padding:0 16px}}.card{{background:white;border-radius:12px;padding:20px;margin:16px 0;box-shadow:0 2px 10px #0001}}.grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}}.metric{{font-size:28px;font-weight:700}}table{{width:100%;border-collapse:collapse;font-size:14px}}th,td{{padding:10px;border-bottom:1px solid #e5e7eb;text-align:left;vertical-align:top}}th{{background:#f3f4f6}}</style></head><body><header><h1>SYJ-AEGIS AI SECURITY &amp; GOVERNANCE REPORT</h1><p>Local static Phase 1/2/3 report — observable static findings only.</p></header><main><div class="card"><h2>Project</h2><p>{e(project.name)}</p></div><div class="grid"><div class="card"><div class="metric">{len(findings)}</div>Findings</div><div class="card"><div class="metric">{sum(x.severity=="HIGH" for x in findings)}</div>High</div><div class="card"><div class="metric">{sum(x.severity=="CRITICAL" for x in findings)}</div>Critical</div><div class="card"><div class="metric">{d["files_scanned"]}</div>Files scanned</div><div class="card"><div class="metric">{phase3_count}</div>AI-Firewall findings</div></div><div class="card"><h2>Project Detection</h2><p>Language: {langs}</p><p>Framework: {frameworks}</p></div><div class="card"><h2>Agent Capabilities</h2><table><thead><tr><th>Tool</th><th>Source</th><th>Description</th><th>Capabilities</th></tr></thead><tbody>{capability_table}</tbody></table></div><div class="card"><h2>Security Findings</h2><table><thead><tr><th>Rule</th><th>Name</th><th>Category</th><th>Severity</th><th>Confidence</th><th>Evidence</th><th>Description</th><th>Remediation</th></tr></thead><tbody>{rows}</tbody></table></div><div class="card"><h2>AI-Firewall</h2><p>Phase 3 statically checks prompt security, direct PII/data exposure, RAG retrieval authorization indicators, and LLM output flows into dangerous sinks. Heuristics are conservative and do not perform cross-function or cross-file taint tracking.</p></div><div class="card"><h2>Security Overview</h2><p>SYJ-AEGIS performs local static analysis only. It does not execute or import scanned project code.</p></div><div class="card"><h2>Phase Scope</h2><p>Capability graph visualization, AIGovern, governance, dependency analysis, SARIF, baselines, suppressions and other Phase 4/5 features remain outside Phase 3.</p></div></main></body></html>"""
 
 def write_outputs(project,d,findings):
     out=Path(project)/".aegis"; (out/"report").mkdir(parents=True,exist_ok=True)
     data={"tool":"SYJ-AEGIS","tool_version":__version__,"rules_version":RULES_VERSION,"findings":[x.to_dict() for x in findings]}
     (out/"findings.json").write_text(json.dumps(data,indent=2,sort_keys=True,ensure_ascii=False)+"\n",encoding="utf-8")
-    cfg={"project":{"path":str(Path(project).resolve())},"scan":{"secrets":True,"discovery":True,"agentguard":True},"phase":2,"network_access":False}
+    cfg={"project":{"path":str(Path(project).resolve())},"scan":{"secrets":True,"discovery":True,"agentguard":True,"ai_firewall":True},"phase":3,"network_access":False}
     (out/"configuration.json").write_text(json.dumps(cfg,indent=2,sort_keys=True,ensure_ascii=False)+"\n",encoding="utf-8")
     inventory={"tools":[{"name":x["name"],"source":x["source"],"description":x["description"]} for x in d.get("agent_tools",[])]}
     (out/"inventory.json").write_text(json.dumps(inventory,indent=2,sort_keys=True,ensure_ascii=False)+"\n",encoding="utf-8")

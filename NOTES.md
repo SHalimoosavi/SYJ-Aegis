@@ -1,8 +1,26 @@
 
-## Phase 2 Detection Heuristics
+## Phase 3 Detection Heuristics
 
-AgentGuard intentionally uses conservative, generic Python AST patterns rather than claiming framework-specific support. A function is considered an agent tool only when one of these explicit patterns is present: a decorator named `tool`, `function_tool`, `agent_tool`, or `register_tool`; a decorator whose qualified name ends in `.tool`; a function passed to `register_tool(...)` or `add_tool(...)`; or a function reference contained in a literal `tools=[...]`, `tools=(...)`, or `tools={...}` collection passed to a call. Ordinary functions are not treated as tools merely because they have a particular name or signature.
+AI-Firewall is intentionally conservative. It uses Python `ast` within each file/function and does not perform cross-function or cross-file taint tracking. Findings describe observable static patterns, not proven runtime behavior.
 
-Permission evidence is collected only from the tool function body. `eval`, `exec`, `subprocess.*`, `os.system`, and `os.popen` indicate execute; `open` with `w`, `a`, `x`, or `+`, `write_text`, `write_bytes`, `os.rename`, `os.replace`, and `shutil.move/copy*` indicate write; `open`, `Path.read_text/read_bytes`, and `os.remove/unlink/rmdir` indicate filesystem access; `socket.socket`, `socket.create_connection`, `urllib.request.*`, and `http.client.*` indicate network; `os.getenv`, `os.environ`, and credential-looking identifiers such as `API_KEY`, `ACCESS_TOKEN`, `PASSWORD`, `SECRET`, `PRIVATE_KEY`, or `CREDENTIAL` indicate credentials; `os.remove`, `os.unlink`, `os.rmdir`, `os.removedirs`, `os.rename`, `os.replace`, `shutil.move`, and `shutil.rmtree` indicate destructive operations.
+### Prompt security
+- Hardcoded prompt secrets: inspect string literals assigned to variables whose names contain `prompt`, `instruction`, or `system`. The existing Phase 1 `secrets.RULES` patterns are applied to the literal value; placeholder values are ignored using the same placeholder logic. Evidence points to the assignment line.
+- LLM-call recognition: the Phase 3 list recognizes concrete call-name patterns such as `client.responses.create`, `client.chat.completions.create`, `client.completions.create`, `openai.ChatCompletion.create`, `anthropic.messages.create`, `llm.invoke`, `llm.predict`, and `model.generate_content`, plus documented method suffixes for chat/completion/response/message creation. This is pattern recognition, not a claim of complete framework support.
+- Prompt-injection exposure: within one function, an LLM prompt-like argument is considered exposed when it is an f-string, string concatenation, direct variable, or simple container expression containing a function parameter or a `request.*` / `req.*` attribute. Evidence records the input origin and LLM call site in the finding description. Cross-function propagation is not attempted. Severity is `HIGH`; confidence is `MEDIUM`.
 
-These heuristics do not claim LangChain, OpenAI Agents, MCP, CrewAI, AutoGen, or another framework's complete tool semantics. Framework-specific support is intentionally omitted unless the source pattern can be recognized reliably with the standard library alone.
+### Data exposure
+- PII literals are limited to regex matches for email addresses and phone-number-like strings.
+- PII variables use a documented naming heuristic covering names such as `email`, `phone`, `ssn`, `customer_id`, `client_id`, `user_id`, `address`, `postal_code`, and related variants.
+- A finding is emitted only when the PII-like literal/variable is passed directly as an argument in the same function to a recognized logging call (`logging.*`, `logger.*`, or `log.*`), recognized LLM call, or recognized network call from the Phase 2 network patterns.
+- Confidence is `LOW` for PII literal matches and `MEDIUM` for PII-looking variable names. The heuristic does not claim that every matching value is personal data.
+
+### RAG security
+- Vector-store usage is detected from import statements whose top-level package is one of: `chromadb`, `pinecone`, `weaviate`, `qdrant`, `faiss`, `pgvector`, or `milvus`. Aegis does not import or install these packages.
+- Retrieval call names are limited to `similarity_search`, `query`, `retrieve`, and `get_relevant_documents`.
+- In a function containing a retrieval call, authorization/tenant/filter-looking evidence is considered present when names, attributes, or string literals contain tokens such as `auth`, `tenant`, `permission`, `access`, `acl`, `filter`, `user_id`, `customer_id`, `org_id`, `organization_id`, or `role`.
+- If no such indicator is visible in that same function, the finding says exactly: `Access filtering: UNCLEAR. Potential risk: Retrieved content may cross authorization boundaries.` Severity is `HIGH`, confidence is `LOW`, and the issue is review-oriented rather than a claim that isolation is broken.
+
+### Output security
+- Dangerous sinks are limited to `subprocess.*`, `os.system`, `os.popen`, `eval`, `exec`, `cursor-like .execute(...)` when the SQL argument is an f-string or `.format(...)` expression, and `open(..., "w"/"a"/"x"/"+")`.
+- An LLM output is identified only when a recognized LLM call is directly assigned to a local variable in the same function.
+- If that variable is then passed directly, or through an f-string/concatenation/container expression, to a dangerous sink in the same function, emit `AEGIS-AI-017` with `CRITICAL` severity and `MEDIUM` confidence. The finding is a `REVIEW REQUIRED` style warning and does not claim the sink will definitely execute harmful behavior.

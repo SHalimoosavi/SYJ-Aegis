@@ -2,14 +2,14 @@
   "files_scanned": 113,
   "metrics": {
     "ci": {
-      "actionable_findings": 2,
+      "actionable_findings": 0,
       "baseline_findings": 18,
       "fail_on": "high",
-      "failed": true,
-      "sarif_results": 20,
+      "failed": false,
+      "sarif_results": 18,
       "sarif_version": "2.1.0",
       "suppressed_findings": 0,
-      "total_findings": 20
+      "total_findings": 18
     },
     "governance": {
       "controls": 6,
@@ -26,10 +26,10 @@
       "AI-Firewall": 13,
       "AIGovern": 14,
       "AgentGuard": 1,
-      "Secret Detection": 6
+      "Secret Detection": 4
     },
     "phase": {
-      "Phase 1": 6,
+      "Phase 1": 4,
       "Phase 2": 1,
       "Phase 3": 13,
       "Phase 4": 0,
@@ -38,9 +38,9 @@
     },
     "severity": {
       "CRITICAL": 4,
-      "HIGH": 16
+      "HIGH": 14
     },
-    "total": 20
+    "total": 18
   },
   "phase_1": "merged",
   "phase_2": "merged",

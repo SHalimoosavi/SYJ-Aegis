@@ -238,5 +238,5 @@ See [`docs/production-hardening.md`](docs/production-hardening.md) for the opera
 | 2 | 🛡️ AgentGuard | Tool inventory, permission model, excessive-agency detection | ✅ Merged |
 | 3 | 🔥 AI-Firewall | Prompt security, data exposure, RAG security, output security | ✅ Merged |
 | 4 | 📊 GitHub Pages Dashboard | Self-scan dashboard, live severity summary, module status, static report publishing | ✅ Merged |
-| 5 | 📋 AIGovern | AI system register, data map, risk register, governance controls, evidence-backed governance findings | 🚧 In Progress |
-| 6 | Production Hardening | CI/CD mode, SARIF output, baselines, suppressions, full docs, GitHub Actions | 🚧 In Progress |
+| 5 | 📋 AIGovern | AI system register, data map, risk register, governance controls, evidence-backed governance findings | ✅ Merged |
+| 6 | Production Hardening | CI/CD mode, SARIF output, baselines, suppressions, full docs, GitHub Actions | ✅ Released — v1.0.0 |

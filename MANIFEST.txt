@@ -1,19 +1,10 @@
-aegis/ai_firewall.py — Phase 3 AI-Firewall static heuristics for prompt security, data exposure, RAG security, and output sinks.
-aegis/scanner.py — Integrates Phase 3 findings and updates deterministic configuration and HTML security reporting.
-aegis/cli.py — Updates scan help to identify Phase 3 static analysis.
-tests/test_prompt_security.py — Positive/negative tests for prompt secret and prompt-injection heuristics.
-tests/test_pii_exposure.py — Positive/negative tests for PII/data-exposure heuristics.
-tests/test_rag_security.py — Positive/negative tests for RAG detection and UNCLEAR authorization filtering.
-tests/test_output_sinks.py — Positive/negative tests for LLM-output dangerous-sink detection.
-tests/fixtures/phase3_prompt_positive/app.py — Positive prompt-security source fixture.
-tests/fixtures/phase3_prompt_negative/app.py — Negative prompt-security source fixture.
-tests/fixtures/phase3_pii_positive/app.py — Positive PII/data-exposure source fixture.
-tests/fixtures/phase3_pii_negative/app.py — Negative PII/data-exposure source fixture.
-tests/fixtures/phase3_rag_positive/app.py — Positive RAG authorization-review source fixture.
-tests/fixtures/phase3_rag_negative/app.py — Negative RAG authorization-review source fixture.
-tests/fixtures/phase3_output_positive/app.py — Positive LLM-output dangerous-sink source fixture.
-tests/fixtures/phase3_output_negative/app.py — Negative LLM-output dangerous-sink source fixture.
-NOTES.md — Appends auditable Phase 3 detection heuristics and evidence rules.
-CHANGELOG.md — Appends the Phase 3 AI-Firewall changelog entry.
-README.md — Maintains the project documentation and roadmap through Phase 3.
-MANIFEST.txt — Lists only the Phase 3 added/modified files in this change package.
+README.md — Updated Phase 4–6 development roadmap.
+scripts/build_docs.py — Phase 4 standard-library dashboard build script.
+docs/_template.html — Self-contained deterministic GitHub Pages dashboard template.
+docs/index.html — Generated dashboard from the SYJ-AEGIS repository self-scan.
+docs/status.json — Hand-maintained module and roadmap status source of truth.
+docs/report/index.html — Generated self-scan HTML report copied from .aegis/report/.
+tests/test_build_docs.py — Positive dashboard content, missing-input, and resource tests.
+tests/fixtures/phase4_dashboard/findings.json — Structured findings fixture for dashboard rendering tests.
+CHANGELOG.md — Appended Phase 4 dashboard changelog entry.
+MANIFEST.txt — Lists the Phase 4 added/modified files in this change package.

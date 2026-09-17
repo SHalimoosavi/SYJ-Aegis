@@ -1,0 +1,37 @@
+{
+  "tool": "SYJ-AEGIS",
+  "tool_version": "0.1.0",
+  "rules_version": "phase1",
+  "findings": [
+    {
+      "rule_id": "AEGIS-SECRET-001",
+      "category": "Secret Exposure",
+      "severity": "HIGH"
+    },
+    {
+      "rule_id": "AEGIS-AGENCY-001",
+      "category": "Excessive Agency",
+      "severity": "CRITICAL"
+    },
+    {
+      "rule_id": "AEGIS-AI-002",
+      "category": "Prompt Security",
+      "severity": "HIGH"
+    },
+    {
+      "rule_id": "AEGIS-AI-004",
+      "category": "RAG Security",
+      "severity": "HIGH"
+    },
+    {
+      "rule_id": "AEGIS-AI-017",
+      "category": "Output Security",
+      "severity": "CRITICAL"
+    },
+    {
+      "rule_id": "AEGIS-AI-003",
+      "category": "Data Exposure",
+      "severity": "LOW"
+    }
+  ]
+}

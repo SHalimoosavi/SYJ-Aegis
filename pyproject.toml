@@ -1,0 +1,14 @@
+[build-system]
+requires = []
+build-backend = "aegis.build_backend"
+backend-path = ["."]
+
+[project]
+name = "syj-aegis"
+version = "0.1.0"
+description = "Local-first AI application and agent security scanner."
+requires-python = ">=3.10"
+dependencies = []
+
+[project.scripts]
+aegis = "aegis.cli:main"

@@ -1,10 +1,8 @@
-# SYJ-AEGIS Phase 1 Notes
-## Assumptions
-1. The pasted specification uses flattened numbering; Phase 1 scope is taken directly from its explicit phase definition.
-2. Only populated Phase 1 directories are created.
-3. Later-phase CLI commands and configuration controls are not exposed early.
-4. Secret detection uses conservative local patterns and records only file/line evidence; detected values are not included in findings or HTML.
-5. Technology detection is evidence-based and limited to source extensions, supported manifests, Docker filenames, and GitHub Actions workflow paths.
-6. External vulnerability intelligence is not queried in Phase 1.
-7. Volatile timestamps are omitted from `findings.json` to preserve deterministic byte-for-byte output.
-8. Example report dates/counts are not copied; actual scan results are computed.
+
+## Phase 2 Detection Heuristics
+
+AgentGuard intentionally uses conservative, generic Python AST patterns rather than claiming framework-specific support. A function is considered an agent tool only when one of these explicit patterns is present: a decorator named `tool`, `function_tool`, `agent_tool`, or `register_tool`; a decorator whose qualified name ends in `.tool`; a function passed to `register_tool(...)` or `add_tool(...)`; or a function reference contained in a literal `tools=[...]`, `tools=(...)`, or `tools={...}` collection passed to a call. Ordinary functions are not treated as tools merely because they have a particular name or signature.
+
+Permission evidence is collected only from the tool function body. `eval`, `exec`, `subprocess.*`, `os.system`, and `os.popen` indicate execute; `open` with `w`, `a`, `x`, or `+`, `write_text`, `write_bytes`, `os.rename`, `os.replace`, and `shutil.move/copy*` indicate write; `open`, `Path.read_text/read_bytes`, and `os.remove/unlink/rmdir` indicate filesystem access; `socket.socket`, `socket.create_connection`, `urllib.request.*`, and `http.client.*` indicate network; `os.getenv`, `os.environ`, and credential-looking identifiers such as `API_KEY`, `ACCESS_TOKEN`, `PASSWORD`, `SECRET`, `PRIVATE_KEY`, or `CREDENTIAL` indicate credentials; `os.remove`, `os.unlink`, `os.rmdir`, `os.removedirs`, `os.rename`, `os.replace`, `shutil.move`, and `shutil.rmtree` indicate destructive operations.
+
+These heuristics do not claim LangChain, OpenAI Agents, MCP, CrewAI, AutoGen, or another framework's complete tool semantics. Framework-specific support is intentionally omitted unless the source pattern can be recognized reliably with the standard library alone.

@@ -1,0 +1,10 @@
+aegis/agentguard.py — Phase 2 AST-based tool inventory, capability classification, and excessive-agency detection.
+aegis/scanner.py — Integrates AgentGuard findings and writes inventory/permissions outputs plus Agent Capabilities HTML.
+aegis/cli.py — Updates scan help/output for Phase 1/2 and reports discovered agent-tool count.
+tests/test_agentguard_discovery.py — Positive/negative tests for conservative tool discovery.
+tests/test_permissions.py — Positive/negative tests for capability classification.
+tests/test_excessive_agency.py — Positive/negative tests for excessive-agency combinations.
+tests/fixtures/agentguard_positive/tool_positive.py — Positive AgentGuard source fixture.
+tests/fixtures/agentguard_negative/tool_negative.py — Negative AgentGuard source fixture.
+NOTES.md — Appends auditable Phase 2 detection heuristics and evidence rules.
+CHANGELOG.md — Adds Phase 2 AgentGuard changelog entry.

@@ -1,0 +1,131 @@
+{
+  "findings": [
+    {
+      "file": "tests/fixtures/positive/secrets.env",
+      "fingerprint": "1616d33c26bff3ad8157013e2f5dc1a79794f7114a872c35f7fd7ad70aea8bc4",
+      "line": 1,
+      "name": "Potential exposed api key",
+      "rule_id": "AEGIS-SECRET-001"
+    },
+    {
+      "file": "tests/fixtures/phase3_output_positive/app.py",
+      "fingerprint": "2357d08d547806c8d07958b9e95fbaae20bc840994103b213a9100c58c8b4446",
+      "line": 2,
+      "name": "Potential prompt-injection exposure",
+      "rule_id": "AEGIS-AI-002"
+    },
+    {
+      "file": "tests/fixtures/agentguard_positive/tool_positive.py",
+      "fingerprint": "4cc61d404df3c211b6ec36ffbea8713d4e76914f0bc171f9667bc7bf00a69fae",
+      "line": 15,
+      "name": "Potential excessive tool agency",
+      "rule_id": "AEGIS-AGENCY-001"
+    },
+    {
+      "file": "tests/test_secrets.py",
+      "fingerprint": "6bba56cf5230e00a59916cabf2789f5ac75f4f162514bed4022ca7113f7660a2",
+      "line": 14,
+      "name": "Potential exposed private key",
+      "rule_id": "AEGIS-SECRET-005"
+    },
+    {
+      "file": "tests/fixtures/phase3_output_positive/app.py",
+      "fingerprint": "6fbddea7813a93207f03011ab06ebbec625fed9c9e602bccde29ee3c148ed082",
+      "line": 3,
+      "name": "Potential unsafe LLM output sink",
+      "rule_id": "AEGIS-AI-017"
+    },
+    {
+      "file": "tests/fixtures/phase3_prompt_positive/app.py",
+      "fingerprint": "70c1fd0e8b315572a357799eb39ab9bcd350a9f26a7689012f26a24d76fbf503",
+      "line": 2,
+      "name": "Hardcoded secret in privileged prompt",
+      "rule_id": "AEGIS-AI-001"
+    },
+    {
+      "file": "tests/fixtures/phase3_rag_positive/app.py",
+      "fingerprint": "80172981953f5947b1c9673d11b718a98f1995599b143f1d3b3c578e5267dc37",
+      "line": 4,
+      "name": "RAG access filtering is unclear",
+      "rule_id": "AEGIS-AI-004"
+    },
+    {
+      "file": "tests/fixtures/phase3_output_positive/app.py",
+      "fingerprint": "9d2048b4288928475e7d5828aca85aba05701815aaec0eb1fedc980638ca6cdd",
+      "line": 4,
+      "name": "Potential unsafe LLM output sink",
+      "rule_id": "AEGIS-AI-017"
+    },
+    {
+      "file": "tests/test_prompt_security.py",
+      "fingerprint": "af059d6b1b63c444832dbf8aac35a079a84f8e991455c18db9fa3935436d320d",
+      "line": 13,
+      "name": "Potential exposed api key",
+      "rule_id": "AEGIS-SECRET-001"
+    },
+    {
+      "file": "tests/fixtures/phase3_pii_positive/app.py",
+      "fingerprint": "b3e34cda6258e6e4205006b204c302c2da97659f572352c7c27593dd1ee4b492",
+      "line": 6,
+      "name": "Potential PII data exposure",
+      "rule_id": "AEGIS-AI-003"
+    },
+    {
+      "file": "tests/fixtures/phase3_prompt_positive/app.py",
+      "fingerprint": "c08c4cda4d0aee41e96ac74daac46a71e92e0149916ebf6f382395999e6c0e9c",
+      "line": 2,
+      "name": "Potential exposed api key",
+      "rule_id": "AEGIS-SECRET-001"
+    },
+    {
+      "file": "tests/fixtures/phase3_pii_positive/app.py",
+      "fingerprint": "ca3dfaf327a69975340206ef9bfb1a2dd88b4d357906202122d99b5fbafe8a4f",
+      "line": 9,
+      "name": "Potential PII data exposure",
+      "rule_id": "AEGIS-AI-003"
+    },
+    {
+      "file": "tests/fixtures/phase3_pii_positive/app.py",
+      "fingerprint": "cde8bc591b3a8f03aca141a25116a885c83b93bf8b9caaf0e52755b0809770c7",
+      "line": 5,
+      "name": "Potential PII data exposure",
+      "rule_id": "AEGIS-AI-003"
+    },
+    {
+      "file": "tests/fixtures/governance_positive/ai_system.py",
+      "fingerprint": "d42be88a7edcc08c16a06083d0194f425f8436fb454e6af74b32fd176877ef7a",
+      "line": 6,
+      "name": "Potential prompt-injection exposure",
+      "rule_id": "AEGIS-AI-002"
+    },
+    {
+      "file": "tests/fixtures/phase3_pii_positive/app.py",
+      "fingerprint": "ddac6c21b0d3d5bb04d83262c77f36829b2574cf87e3fa4b007f5274eb02919b",
+      "line": 5,
+      "name": "Potential prompt-injection exposure",
+      "rule_id": "AEGIS-AI-002"
+    },
+    {
+      "file": "tests/fixtures/phase3_prompt_positive/app.py",
+      "fingerprint": "e8852d16a7324c0075ec711dc822ffe2beba1c298fe1d50c6ca989717cb34415",
+      "line": 4,
+      "name": "Potential prompt-injection exposure",
+      "rule_id": "AEGIS-AI-002"
+    },
+    {
+      "file": "tests/fixtures/phase3_pii_positive/app.py",
+      "fingerprint": "ed8a1e6757378a48ed3a1edf76feab4549a27b06bf4564b1223ad9b539f8cf78",
+      "line": 4,
+      "name": "Potential PII data exposure",
+      "rule_id": "AEGIS-AI-003"
+    },
+    {
+      "file": "tests/fixtures/phase3_output_positive/app.py",
+      "fingerprint": "f0bff122bd99feadc389e3a294a88b0c68dfdafa963d2d1885037c6feea4cf17",
+      "line": 5,
+      "name": "Potential unsafe LLM output sink",
+      "rule_id": "AEGIS-AI-017"
+    }
+  ],
+  "version": "phase6"
+}

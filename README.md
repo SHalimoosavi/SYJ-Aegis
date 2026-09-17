@@ -192,6 +192,44 @@ Where static evidence is insufficient to establish a fact, AIGovern does not inv
 
 The implementation is validated by positive and negative fixtures covering AI-system detection, data mapping, risk/control mapping, evidence-backed governance findings, scanner integration, and deterministic governance output.
 
+## ⚙️ Phase 6 — Production Hardening
+
+Phase 6 adds a deterministic CI policy layer around the existing static scanner without changing Phase 1–5 detection behavior.
+
+### CI mode
+
+```bash
+aegis ci ./my-ai-agent \
+  --sarif .aegis/results.sarif \
+  --baseline .github/aegis-baseline.json \
+  --suppressions .github/aegis-suppressions.json \
+  --fail-on high
+```
+
+The CI command preserves the normal `.aegis/` scan artifacts, writes SARIF 2.1.0, and exits non-zero when an unsuppressed finding meets or exceeds the selected threshold. `none` disables failure gating.
+
+### Baselines
+
+A baseline records deterministic finding fingerprints based on rule, finding name, and evidence location. Existing findings can therefore be recognized as unchanged while newly introduced evidence remains actionable. Generate or refresh one explicitly:
+
+```bash
+aegis ci . --baseline .github/aegis-baseline.json --update-baseline --fail-on none
+```
+
+### Suppressions
+
+Suppressions are explicit and external. A suppression can target an exact finding fingerprint or an exact `rule_id` + file + line location and should include a reason. The repository ships an empty suppression file as a safe starting point.
+
+### SARIF
+
+SARIF results include the original rule ID, severity mapping, evidence file/line, deterministic fingerprint, baseline state, and suppression state where applicable. No source code is executed to produce the report.
+
+### GitHub Actions
+
+The repository includes `.github/workflows/ci.yml` for unit tests, CI policy scanning, and SARIF upload. The workflow installs the project with `pip install -e .` and does not require third-party runtime dependencies.
+
+See [`docs/production-hardening.md`](docs/production-hardening.md) for the operational reference.
+
 ## 🧭 Development Roadmap
 
 | Phase | Module | Scope | Status |
@@ -201,4 +239,4 @@ The implementation is validated by positive and negative fixtures covering AI-sy
 | 3 | 🔥 AI-Firewall | Prompt security, data exposure, RAG security, output security | ✅ Merged |
 | 4 | 📊 GitHub Pages Dashboard | Self-scan dashboard, live severity summary, module status, static report publishing | ✅ Merged |
 | 5 | 📋 AIGovern | AI system register, data map, risk register, governance controls, evidence-backed governance findings | 🚧 In Progress |
-| 6 | Production Hardening | CI/CD mode, SARIF output, baselines, suppressions, full docs, GitHub Actions | 📋 Planned |
+| 6 | Production Hardening | CI/CD mode, SARIF output, baselines, suppressions, full docs, GitHub Actions | 🚧 In Progress |

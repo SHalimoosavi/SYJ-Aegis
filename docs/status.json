@@ -1,8 +1,53 @@
 {
-  "ai_firewall": "merged",
-  "agentguard": "merged",
-  "aigovern": "in_progress",
+  "files_scanned": 113,
+  "metrics": {
+    "ci": {
+      "actionable_findings": 0,
+      "baseline_findings": 18,
+      "fail_on": "high",
+      "failed": false,
+      "sarif_results": 18,
+      "sarif_version": "2.1.0",
+      "suppressed_findings": 0,
+      "total_findings": 18
+    },
+    "governance": {
+      "controls": 6,
+      "data_flows": 4,
+      "findings": 14,
+      "risks": 14,
+      "severity": {
+        "CRITICAL": 4,
+        "HIGH": 10
+      },
+      "systems": 1
+    },
+    "module": {
+      "AI-Firewall": 13,
+      "AIGovern": 14,
+      "AgentGuard": 1,
+      "Secret Detection": 4
+    },
+    "phase": {
+      "Phase 1": 4,
+      "Phase 2": 1,
+      "Phase 3": 13,
+      "Phase 4": 0,
+      "Phase 5": 14,
+      "Phase 6": 0
+    },
+    "severity": {
+      "CRITICAL": 4,
+      "HIGH": 14
+    },
+    "total": 18
+  },
+  "phase_1": "merged",
+  "phase_2": "merged",
+  "phase_3": "merged",
   "phase_4_dashboard": "merged",
-  "phase_5_aigovern": "in_progress",
-  "phase_6_production_hardening": "in_progress"
+  "phase_5_aigovern": "merged",
+  "phase_6_production_hardening": "released",
+  "release": "v1.0.0",
+  "version": "v1.0.0"
 }
